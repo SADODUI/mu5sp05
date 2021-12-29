@@ -1,0 +1,135 @@
+
+Question2 :
+
+Compiler  les  fichiers  max.c,  min.c  et  var.c  en  faisant  appel  à  l’option  –fPIC  (Sans  faire d’édition de lien). Note : Les fichiers doivent être compilés avec l'option -fPIC pour que le code ne soit pas relogeable (Position Independent Code). 
+
+Réponse : 
+
+kouceila@ubuntu:~/mu5sp05-part1/lab9$ gcc -Wall -fPIC -c max.c minim.c var.c
+kouceila@ubuntu:~/mu5sp05-part1/lab9$ ls
+CompteRenduLab9  max.h  minim.c  minim.o  var.h
+max.c            max.o  minim.h  var.c    var.o
+
+Question 3 :
+
+kouceila@ubuntu:~/mu5sp05-part1/lab9$ gcc -shared max.o minim.o var.o -o biblioDyn.so
+kouceila@ubuntu:~/mu5sp05-part1/lab9$ ls
+biblioDyn.so     max.c  max.o    minim.h  var.c  var.o
+CompteRenduLab9  max.h  minim.c  minim.o  var.h
+
+Question 4 :
+Déplacer la bibliothèque créer dans ce nouveau répertoire se trouvant dans /opt/lib créer lors du 
+dernier TP.  
+
+kouceila@ubuntu:~/mu5sp05-part1/lab9$ sudo mv biblioDyn.so /opt/lib
+kouceila@ubuntu:/opt/lib$ ls
+biblioDyn.so liboutils.a 
+
+Question 5 et 6: 
+
+Compilez le main.c  en spécifiant le chemin des bibliothèques 
+5) Compliation avec gcc testAll.c /opt/lib/ -lbiblioDyn -lm -o es 
+6) excution ne marche pas
+ 
+ Question 7 :
+ 
+Pour indiquez à l'édit eur de lien dynamique le répertoire dans lequel il faut chercher les bibliothèques partagées lors de l’exécution , nous allons faire appel à la variable d’environnement LD_LIBRARY_PATH. Nous allons faire appel au choix 2 à savoir
+l utilisation de la variabl e d environnement LD_LIBRARY_PATH. Afficher le contenu de cettevariable d’environnement. Que remarquez vous ?
+
+Réponse :
+
+kouceila@ubuntu:~/mu5sp05-part1/lab9$ printenv LD_LIBRARY_PATH --> aucun affichage 
+
+Question 8 : 
+
+chemin des bibliothéque : LD_LIBRARY_PATH=/opt/lib
+ 
+ 
+ Question 9 : 
+ 
+ C ompiler le main, exécuter le binaire . Qu’est qu'il se passe ?   
+ 
+ rep : Rien
+ 
+ Question 10 :
+ 
+Faite le nécessaire pour rajouter le chemin de votre bibilothéque d’une maniére permanante dans la variable d’environnement LD_LIBRARY_PATH . Exécutez et vérifier le bon fonctionnement.
+
+Réponse : 
+LD_LIBRARY_PATH=/opt/lib
+
+Question 11 : 
+
+Localiser la bibliothèque math « libm .so » .
+
+Réponse :
+Avec la commande locate on trouve que la bibliothéque se trouve dans 
+
+kouceila@ubuntu:~/mu5sp05-part1/lab9$ locate biblioDyn.so
+/opt/lib/biblioDyn.so
+
+
+Question 12 : 
+
+Identifier le soname et le nom réel de la bibliothèque math.
+
+Réponse :
+
+readelf -d  /path/to/biblioDyn.so |grep SONAME
+
+kouceila@ubuntu:~/mu5sp05-part1/lab9$ sudo apt install soname
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+E: Unable to locate package soname
+
+Question 13 : 
+
+Nous souhaitons maintenant placer notre nouvelle bibliothèque dans un emplacement standardde sorte que tout le monde puisse avoir accès. On souhaite également la protéger en configurantles droits d’accès en mode lecture seule P rocédez à copier cette bibliothèque dans usr/lib et enlev er les droits d’écriture sur votre bibliothèque.
+
+Réponse :
+
+cp /opt/lib/libproject.so /usr/lib
+Question 14:  
+
+Mettez à jour le chargeur la cache du ld.so via la commande ldconfig pour que votre bibliothèque soit prête à l’utilisation.
+
+Question 15 : 
+
+Vérifier que ça été bien fait en appelant l’option p de ldconfig et via la commande grep. avec la commande ldconfig -p 
+
+Réponse :
+kouceila@ubuntu:~/mu5sp05-part1/lab9$ ldconfig -p 
+
+
+Question 16 :
+
+Assurez vous de l'existence de la bibliothèque dans /usr/lib avec la commande ldd.
+
+Réponse :
+ldd libproject.so existe bien    statically linked
+
+Question 17 : 
+
+Désactiver la variable d’environnement LD_LIBRARY_PATH .
+
+Réponse :
+
+En supprimant la ligne ajouté dans bash.bashrc on désactive la variable d'environnement LD_LIBRARY_PATH
+
+Question 18 : 
+
+Compilez votre main en indiquant uniquement le nom de la bibliothèque via l’option l
+
+Réponse :
+
+gcc main.c -L/usr/lib -lbiblioDyn -lm -o testfinalq18
+marche
+Question 19 : 
+
+Exécuter et vérifier le bon fonctionnement de votre code .
+
+Réponse :
+ok
+
+

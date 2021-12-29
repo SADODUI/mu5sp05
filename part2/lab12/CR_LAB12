@@ -1,0 +1,143 @@
+							Lab 12: U-Boot sur une Mini-Sdcard
+							
+Question 1 :
+						
+1. Cloner the mainline U-boot sources. L’URL du git est la suivante: 
+https://github.com/u-boot/u-boot.git 
+
+Réponse : 
+
+kouceila@ubuntu:~/mu5sp05-part1/lab12$ cat > CR_LAB12
+kouceila@ubuntu:~/mu5sp05-part1/lab12$ ls
+CR_LAB12
+kouceila@ubuntu:~/mu5sp05-part1/lab12$ git clone https://github.com/u-boot/u-boot.git
+
+
+
+
+
+Question 2 :
+
+2. Changer vers la branche v2018.05 
+#Hint : git checkout  ${nom de la branche}
+
+
+kouceila@ubuntu:~/mu5sp05-part1/lab12/u-boot$ git checkout v2018.05
+
+
+
+
+Question 3 :
+
+3. Vérifier que vous êtes sur la bonne branche
+#Hint: pour vérifier que vous êtes bien sur la branche : git branch$
+
+Rp :
+kouceila@ubuntu:~/mu5sp05-part1/lab12/u-boot$ git branch
+* (HEAD detached at v2018.05)
+  master
+
+ 
+ 
+ Question 4 :
+
+Chercher le fichier de defconfig correspondant à votre carte (Processeur am335, carte beagle bone black). Voir figure çi dessous.  La liste des fichiers de defconfig est situé dans le répertoire u-boot/configs.
+locate // ou cd configs ...
+le fichier récuperée est : am335x_boneblack_defconfig 
+   
+ Question 5 : 
+             
+5. Lancer make defconfig_file correspondant à votre carte. Vérifier qu’un fichier .config est
+généré dans le répertoire principale de U-boot. Afficher le fichier .config. Expliquez le
+contenu de ce fichier. Modifier la variable CONFIG_SYS_PROMPT en mettant votre nom
+de famille suivie par un –uboot :  $(votre-nom-famille)-uboot=>.  
+
+kouceila@ubuntu:~/mu5sp05-part1/lab12/u-boot$ vi .config*
+
+
+Question 6 :
+
+6. Lancer la commande de compilation make. Vérifier que vous arrivez à générer les deux
+fichiers MLO et u-boot.img. 
+
+OK
+
+
+Question 7 :
+
+7. Nous allons maintenant préparer une carte amorçable micro-SD sur laquelle nous allons
+porté un linux. Prenez une carte micro-SD et connectez-la à votre PC:
+
+Cas 1: Soit en utilisant un emplacement SD direct si disponible. Dans ce cas, la carte doit
+être considérée comme "/dev/mmcblk0" par votre ordinateur (vérifiez le résultat de la
+commande "dmesg").
+
+Cas 2:  Soit en utilisant un lecteur de carte mémoire. Dans ce cas, la carte doit être
+considérée comme "/dev /sdb" ou "/dev/sdc", etc.
+
+C'est fais // sdb se trouve bien dans Dev
+
+
+Question 8 :
+8. Exécutez la commande mount pour vérifier les partitions de la carte SD. 
+ok
+
+
+
+Question 9 :
+
+9. Faite appel à la commande `sudo fdisk -l` après branchement de la carte SD pour bien iden- tifier le nom du périphérique. Également faite le avec la commande dmesg. Faite attention,
+ne touchez jamais au disque sda. 
+
+ok
+Device     Boot Start      End  Sectors  Size Id Type
+/dev/sdb1        8192 31116287 31108096 14.9G  c W95 FAT32 (LBA)
+
+
+Question 10 :
+
+10. Démontez-la partition avec la commande umount selon la manière dont le système voit le périphérique de carte média.
+#Hint: umount  /dev/nom de la partition
+
+umount  /dev/nom
+
+Question 11 :
+
+11. Effacer la table de partition de la carte SD en éffaçant le premier Mo de la carte sd via la
+commande dd. Faite appel au device virtuel /dev/zero pour copier des zero dans le premier
+Mo 
+#hint : sudo dd if=/dev/zero of=/dev/peripherqiue bs=1024 count=1024 (block size 1024, count 1024)
+
+Réponse : 
+
+kouceila@ubuntu:/dev$ sudo dd if=/dev/zero of=/dev/peripherqiue bs=1024 count=1024
+1024+0 records in
+1024+0 records out
+1048576 bytes (1.0 MB, 1.0 MiB) copied, 0.00324229 s, 323 MB/s
+
+
+
+Question 12 : 
+
+12. Utiliser la commande cfdisk /dev/nom de votre device pour vérifier que la table de partition de la carte SD est vide. Créer une nouvelle partition en séléctionnant dans le menu label type
+le type dos,  Ensuite, cochez la case amorcable et sélectionnez le type 0E (W95 FAT16 (LBA)) que vous trouverez dans la liste des types. N’oubliez pas de réaliser l’opération d’écriture sur la carte SD.
+
+kouceila@ubuntu:/dev$ sudo cfdisk /dev/sdb1
+
+
+Question 13 :
+
+13. Formattez la partition que vous avez créer et donner le nom boot à cette partition. 
+         # Hint :  sudo mkfs.vfat -F 32 /dev/????? -n boot
+sudo mkfs.vfat -F 32 /dev/sdb1p1 -n boot
+
+kouceila@ubuntu:/dev$ sudo cfdisk /dev/sdb1
+
+kouceila@ubuntu:/dev$ sudo mkfs.vfat -F 32 /dev/sdb1p1 -n boot
+
+
+Question 14 :
+
+14. Retirez   la   carte   et   insérez-la   à   nouveau.   Il   devrait   être   monté   automatiquement   sur
+'/media/$USER/boot'.   Copiez  les  deux  fichiers  générés  MLO  et  u-boot.img  sur cette
+partition.

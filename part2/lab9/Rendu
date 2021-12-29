@@ -1,0 +1,21 @@
+compte rendu lab9
+1) copie des fichiers du lab7 : cp max.h max.c var.h var.c /lab9/
+2) Compliation sans faire l'edition de lien avec : gcc -Wall -fPIC -c max.c min.c variance.c
+3) Création de la bibliothéque partégée avec : gcc -shared max.o min.o variance.o -o libproject.so
+4) Déplacer la bibliothéque avec : sudo mv libproject.so /opt/lib
+5) Compliation avec gcc main.c /opt/lib/ -lproject -lm -o es 
+6) excution ne marche pas
+
+7) pour afficher le contenu de la variable d'environnement LD_LIBRARY_path on tulise la commande : printenv LD_LIBRARY_PATH, on trouve qu'il n'a rien dans la library 
+😎 ajout du chemin des bibliothéque avec export LD_LIBRARY_PATH=/opt/lib
+9) compliation du main avec gcc main.c -L/opt/lib -lproject -lm -o es   
+10) ajout de la commande export LD_LIBRARY_PATH=/opt/lib qui se trouve dans /etc/ 
+11) avec locate on trouve que la bibliothéque se trouve dans /usr/lib/x86_64-linux-gnu/
+12) le soname de la bibliohtéuqe est libm.so.6 
+13) copier la bilbiothéuqe avec cp /opt/lib/libproject.so /usr/lib, ensuite enlever les droits d'écriture avec sudo chmod a-w libproject.so
+14) sudo ldconfig
+15) avec la commande ldconfig -p on voit bien que la mise à jour a été bien effectuée
+16) ldd libproject.so existe bien    statically linked
+17) en supprimant la ligne ajouté preceddement dans bash.bashrc on désactive la variable d'environnement LD_LIBRARY_PATH
+18) Compliation ok avec gcc main.c -L/usr/lib -lproject -lm -o testfinalq18
+19) excusion marche parfaitement

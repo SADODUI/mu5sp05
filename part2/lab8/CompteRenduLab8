@@ -1,0 +1,165 @@
+Question 1,2,3 :
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ar -r liboutils.a max.o minim.o
+ar: creating liboutils.a
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ls
+CompteRenduLab8  liboutils.a  max.c  max.h  max.o  minim.c  minim.h  minim.o
+
+Question 4: 
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ar -t liboutils.a 
+max.o
+minim.o
+
+Question 5 :
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ranlib liboutils.a 
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ls
+CompteRenduLab8  liboutils.a  max.c  max.h  max.o  minim.c  minim.h  minim.o
+
+
+Question 6 : 
+
+Créez  un  fichier  main.c  permettant  de  créer  et d’initialiser un tableau de 7  éléments  avec  les valeurs suivantes: 13 12 5 1 19 13 17 et appeler les fonctions max et min pour calculer le max et le min
+
+Solution : 
+ouceila@ubuntu:~/mu5sp05-part1/lab8$ gcc -Wall -c main.c
+main.c:6:6: warning: return type of ‘main’ is not ‘int’ [-Wmain]
+    6 | void main(){
+      |      ^~~~
+
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ls
+CompteRenduLab8  main.c  max.c  max.o    minim.h
+liboutils.a      main.o  max.h  minim.c  minim.o
+
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ gcc max.o minim.o main.o -o test.exe
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ls
+CompteRenduLab8  main.c  max.c  max.o    minim.h  test.exe
+liboutils.a      main.o  max.h  minim.c  minim.o
+
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ./test.exe
+la valeur maximale = 19
+la valeur minimale = 1kouceila@ubuntu:~/mu5sp05-part1/lab8$ ./test.exe
+
+
+Question 7 : 
+
+Créer deux répertoires include et lib dans votre répertoire /opt
+
+kouceila@ubuntu:/opt$ sudo mkdir lib
+kouceila@ubuntu:/opt$ ls
+lib  ScriptShowProcessus.sh
+kouceila@ubuntu:/opt$ sudo mkdir include
+kouceila@ubuntu:/opt$ ls
+include  lib  ScriptShowProcessus.sh
+kouceila@ubuntu:/opt$ 
+
+Remarque : pour crée un répertoire dans /opt il faut étre un super utulisateur 
+
+
+Question 8 :
+ Déplacer avec la commande mv les fichier max.h et min.h dans include et liboutils.a dans lib
+ 
+ Solution : 
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ sudo mv max.h minim.h /opt/include
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ sudo mv liboutils.a /opt/lib
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ls
+CompteRenduLab8  main.o  max.o    minim.o
+main.c           max.c   minim.c  test.exe
+
+kouceila@ubuntu:/opt$ ls
+include  lib  ScriptShowProcessus.sh
+kouceila@ubuntu:/opt$ cd include 
+kouceila@ubuntu:/opt/include$ l
+max.h  minim.h
+kouceila@ubuntu:/opt/include$ cd ..
+kouceila@ubuntu:/opt$ cd lib
+kouceila@ubuntu:/opt/lib$ ls
+liboutils.a
+
+
+
+Question 9 et 10: 
+Supprimer tous les fichiers .o dans votre répertoire courant et supprimer également les max.c et min.c  Maintenant,  compilez  le  fichier  main  pour  créer  l’exécutable  final  en  faisant  appel  à  la bibliothèque liboutils que vous avez créée précédemment.  
+ 
+#Hint : Commande de compilation en faisant appel à une bibliothéque  
+gcc main.c –L/$path-library$  -I/$path-include-file$  -l$library-name$ -o executable
+
+Réponse : 
+
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ gcc main.c -I/opt/include -L/opt/lib -loutils -o test
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ls
+CompteRenduLab8  main.c  test
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ./test
+la valeur maximale = 19
+la valeur minimale = 1
+
+Question 11 /12: 
+Nous souhaitons rajouter dans la bibliothèque liboutils.a une nouvelle fonction arithmétique var. 
+Récupérer  le  fichier  var.c.  Compiler  ce  fichier.  Rajouter  cette  fonction  à  la  bibliothèque 
+liboutils. 
+
+Réponse : 
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ gcc -Wall -c var.c
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ls
+CompteRenduLab8  main.c  test  var.c  var.h  var.o
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ sudo mv var.h /opt/include
+[sudo] password for kouceila: 
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ls
+CompteRenduLab8  main.c  test  var.c  var.o
+
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ls
+CompteRenduLab8  main.c  test  var.c
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ mv var.c
+mv: missing destination file operand after 'var.c'
+Try 'mv --help' for more information.
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ls
+CompteRenduLab8  main.c  test  var.c
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ rm var.c
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ls
+CompteRenduLab8  main.c  test
+
+
+Question 12 : 
+. Vérifier la présence du fichier var.o dans la bibliothèque.
+
+kouceila@ubuntu:/opt/lib$ ar t liboutilsfinal.a
+max.o
+minim.o
+var.o
+
+
+
+Question 13 : 
+Utiliser  la  commande  ranlib  et  nm  pour  mettre  à  jour  la  l’indexe et vérifier la présence des flsichier .obj des fonctions
+
+kouceila@ubuntu:/opt/lib$ nm liboutilsfinal.a
+
+max.o:
+0000000000000000 T maxim
+
+minim.o:
+0000000000000000 T minim
+
+var.o:
+0000000000000000 T variance
+
+
+Question 14 : 
+Utiliser  la  fonction  var  dans  main.c  pour  calculer  la  variance  du  tableau.  Compiler.  Tester  et vérifier le bon fonctionnement
+
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ gcc testvar.c -I/opt/include -L/opt/lib -loutils -o testvar
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ./testvar
+la variance est 7.60kouceila@ubuntu:~/mu5sp05-part1/lab8$ 
+
+Question 15 &16 : 
+Nous  allons  maintenant  utiliser  les  fonctions  ceil  et  floor  de  la  bibliothèque  math  standard existante. Dans le main, utilisez ces deux fonctions pour arrondir le résultat de la variance que vous avez déjà calculez.  
+
+
+Question 16 : 
+Compiler, Exécuter et vérifier les résultats. 
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ gcc testvar.c -I/opt/include -L/opt/lib -lm -loutils -o testvar
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ls
+
+kouceila@ubuntu:~/mu5sp05-part1/lab8$ ./testvar
+la variance est 7.60L'arrondi supérieur vaut : 8.00
+
+
+

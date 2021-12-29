@@ -1,0 +1,149 @@
+	 1. Récupérer les sources du lab4 à travers l’URL du git fournit (voir channel slack).  
+
+git clone https://github.com/khachicha/lab4.git
+
+kouceila@ubuntu:~/lab4$ ls
+answering-machine.txt  Microsoft  noyau.v1  noyau.v2  README.md  sardar
+kouceila@ubuntu:~/lab4$ .git
+
+
+
+	2. Utiliser la commande history pour voir toutes les commandes que vous avez déjà tapées.  
+
+history
+ 
+ 
+	3.  Maintenant,  sauvegardez  ce  que  sort  cette  commande  dans  un  nouveau  fichier history.txt.   
+ 
+kouceila@ubuntu:~/lab4$ history > history.txt
+
+kouceila@ubuntu:~/lab4$ ls
+answering-machine.txt  history.txt  noyau.v1  README.md
+Compte_Rendu_Lab4      Microsoft    noyau.v2  sardar
+
+ 
+	4. Mettez bout à bout tous les fichiers du répertoire sardar/ dans le fichier sardar_power.txt, sans quitter le répertoire courant.  
+ 
+ kouceila@ubuntu:~/lab4$ cat /home/kouceila/lab4/sardar/*.txt >> sardar_power.txt
+
+ 
+	5. Combien y a t-il de lignes, de mots et de caractères dans ce nouveau fichier? 
+ 
+ kouceila@ubuntu:~/lab4$ wc sardar_power.txt 
+  
+  Lignes  Mots   fichiers
+  1980    16783   101780    
+  
+
+ 
+	6. Faites afficher toutes les lignes qui contiennent singh dans ce fichier (en ne faisant pas la différence entre majuscules et minuscules).  
+	
+kouceila@ubuntu:~/lab4$ grep -ri singh *.txt
+
+ 
+	7. Supprimez le fichier sardar_power.txt. 
+
+kouceila@ubuntu:~/lab4$ rm sardar_power.txt 
+kouceila@ubuntu:~/lab4$ ls
+answering-machine.txt  history.txt  noyau.v1  README.md
+Compte_Rendu_Lab4      Microsoft    noyau.v2  sardar
+
+	
+ 
+	8.  En  une  seule  ligne  de  commande,  faites  afficher  à  nouveau  toutes  les  lignes  des fichiers  du  répertoire  sardar/  qui  contiennent  le  mot  singh  (en  majuscules  ou  en minuscules).  
+	
+kouceila@ubuntu:~/lab4$ cd sardar
+kouceila@ubuntu:~/lab4/sardar$ ls
+sardar1.txt  sardar2.txt  sardar3.txt
+kouceila@ubuntu:~/lab4/sardar$ grep -ri singh *.txt
+
+
+ 
+	9. Maintenant, comptez le nombre de lignes obtenues, toujours en une seule ligne de commande.  
+ 
+ kouceila@ubuntu:~/lab4/sardar$  
+ 
+ 
+ grep -ri singh *.txt | wc
+   Lignes  Mots   fichiers
+    123    1553    9931
+
+  
+  
+	10. Modifiez la commande précédente pour ne compter que les lignes qui contiennent à la  fois santa et  singh, toujours  sans  faire de différence  entre majuscules et minuscules. 
+	
+kouceila@ubuntu:~/lab4$ grep -r  santa ./sardar/* | grep singh | wc
+      1      12      92
+kouceila@ubuntu:~/lab4$ grep -r  santa ./sardar/* | grep singh
+./sardar/sardar1.txt:friend Banta. As Banta singh stood beside the bed, santa Singh's frail
+
+	
+	
+ 
+	11.  Affinez  une  fois  de  plus  la  commande  pour  ne  compter  que  les  lignes  qui contiennent santa, singh, mais pas banta. 
+
+kouceila@ubuntu:~/lab4$ grep -r  santa ./sardar/* | grep singh | grep -v banta
+./sardar/sardar1.txt:friend Banta. As Banta singh stood beside the bed, santa Singh's frail
+
+kouceila@ubuntu:~/lab4$ grep -r  santa ./sardar/* | grep singh | grep -v banta | wc
+      1      12      92
+
+	
+	
+	
+	12. Trouver tous les fichiers dans le repertoire lab4 qui finisse par .txt.  
+ 
+ kouceila@ubuntu:~/lab4/sardar$ cd ..
+kouceila@ubuntu:~/lab4$ find -name "*.txt"
+./sardar/sardar2.txt
+./sardar/sardar1.txt
+./sardar/sardar3.txt
+./history.txt
+./answering-machine.txt
+
+
+
+	13.  Dans  le  répertoire  parent  sur  lequel  vous  travaillez,  copier  le  fichier  answering-machine  vers  un  nouveau  fichier  que  vous  appellerez  test-commande-locate.  Ce fichier  est  placé  toujours  dans  le  même  répertoire.  Lancer  la  commande  locate  pour chercher ce fichier. Que remarquez vous.  
+ 
+ kouceila@ubuntu:~/lab4$ cp answering-machine.txt "test-commande-locate.txt"
+kouceila@ubuntu:~/lab4$ ls
+answering-machine.txt  Microsoft  README.md
+Compte_Rendu_Lab4      noyau.v1   sardar
+history.txt            noyau.v2   test-commande-locate.txt
+Remarque : avec la commande cat j'ai vérifier le transfert
+
+# Lancer la commande locate pour chercher ce fichier:
+kouceila@ubuntu:~/lab4$ locate test-commande-locate.txt 
+
+Command 'locate' not found, but can be installed with:
+
+sudo apt install mlocate  (wifi impossible)
+
+ 
+	14. Lancer la commande updatedb. Relancer locate. Analyser ce qui se passe.  
+ 
+ 
+	15. Lancer la commande permettant de comparer le contenu deux fichiers noyau.V1 
+et noyau.V2. Identifier la différence entre les deux fichiers.    
+ 
+ 
+	16.  Installez  tkdiff  avec  la  commande  apt  et  visualiser  la  différence  entre  les  deux fichiers.  
+ 
+ kouceila@ubuntu:~/lab4$ diff -u noyau.v1 noyau.v2 > update.patch
+kouceila@ubuntu:~/lab4$ patch noyau.v1 < update.patch
+patching file noyau.v1
+kouceila@ubuntu:~/lab4$ tkdiff noyau.v1 noyau.v2
+
+Command 'tkdiff' not found, but can be installed with:
+
+sudo apt install tkcvs
+
+	17. Créer un patch permettant de mettre à jour le noyau V1 vers noyau.V2. Pour cela stocker  la  différence  entre  les  deux  fichiers  dans  un  nouveau  fichier  que  vous appellerez update.patch. Appliquer le nouveau patch sur le fichier noyau.V1. Vérifier qu’il est bien mis à jours.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+

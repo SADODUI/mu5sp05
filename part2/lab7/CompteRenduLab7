@@ -1,0 +1,174 @@
+
+Question 1 :
+Installer sur votre machine l’environnement de développement intégré Visual Studio code.  
+URL : https://code.visualstudio.com/download  
+ 
+ 
+Question 2 :
+Écrire une fonction maxim en C permettant de calculer la valeur max d’un tableau contenant N entier. Créez à cet effet un fichier max.c et un fichier max.h dans votre répertoire examen. Créer également un fichier testmax.c permettant de créer et d’initialiser un tableau de 5 éléments avec les valeurs suivantes: 2 5 7 2 9.  Vérifier la fonction en affichant le résultat. Le prototype de la 
+fonction est comme suit void maxim (int t[], int n, int * max). 
+ Notes : Evitez la double  inclusion dans les fichiers .h via la directive.   
+ 
+#ifndef H_................. 
+#define H_.................. 
+ 
+/*   ---------   */ 
+/*   ---------   */ 
+/*   ---------   */ 
+#endif 
+
+Note :  Le  fait  d'avoir  choisi  H_........_H  plutôt  que  MAX_H  ou  __MAX_H__  comme  drapeau n'est  pas  du  tout  le  fruit  du  hasard.  Il  permet  de  ne  pas  entrer  en  conflit  avec  les  identifiants réservés  du  langage.  Par  exemple,  les  identifiants  commençants  par  E,  LC_,  SIG,  etc.  sont réservés (E pour les numéros d'erreur de errno.h,  LC_ pour les constantes  définies par locale.h et SIG pour le les signaux de signal.h). H_ en début d'un identifiant est libre, alors en profiter.  
+
+Réponse : 
+kouceila@ubuntu:~/mu5sp05-part1/lab7$ mkdir examen
+kouceila@ubuntu:~/mu5sp05-part1/lab7$ cd examen/
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ code max.c
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ code max.h
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ code testmax.c
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ ls
+max.c  max.h  testmax.c
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ 
+
+
+
+Question 3  : 
+Compiler, tester votre code en faisant appel au compilateur gcc via les lignes de commandes.  
+ 
+Hint:  il  faut  compiler  en  mode  debug  avec  loption  –g  pour  pouvoir  débogger  votre  code.  En 
+annexe une notice explicative du fonctionnement de ce debugger. 
+
+Réponse : 
+Compilation :
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ gcc -Wall -c max.c
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ gcc -Wall -c testmax.c
+testmax.c:4:6: warning: return type of ‘main’ is not ‘int’ [-Wmain]
+    4 | void main(){
+      |      ^~~~
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ ls
+max.c  max.h  max.o  testmax.c  testmax.o
+
+Création du link : 
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ gcc testmax.o max.o -o prog.exe
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ ls
+max.c  max.h  max.o  prog.exe  testmax.c  testmax.o
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ ./prog.exe 
+la valeur maximale = 9ls
+
+
+Remarque : On compile puis on crée le link entre les différent fichier .o, on remarque que le fichier executable à bien étatis crée. 
+
+
+
+
+Question 4 :
+Utiliser les  options -E, -S et -c pour générer les fichiers de compilations intermédiaires  
+
+Réponse : 
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ ls
+max.c  max.h  max.o  prog.exe  testmax.c  testmax.o
+
+Compilation intérmediaire :
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ gcc -E  max.c -o max.i
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ 
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ 
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ ls
+max.c  max.h  max.i  max.o  prog.exe  testmax.c  testmax.o
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ cat max.i
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ gcc -E testmax.c max.i
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ gcc -S max.i
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ gcc -C max.s
+/usr/bin/ld: /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/Scrt1.o: in function `_start':
+(.text+0x24): undefined reference to `main'
+collect2: error: ld returned 1 exit status
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ ls
+max.c  max.h  max.i  max.o  max.s  prog.exe  testmax.c  testmax.o
+
+
+Remarque : Ici on prépare le fichier de compilation 
+
+
+
+ 
+Question 5 : 
+Listez  les  extensions  des  fichiers  intermédiaires  générés.  Expliquez  l’action  réalisée  par  le compilateur dans chacune de ces étapes. 
+ 
+ Réponse: 
+ 
+.i :Dans cette étape le préprocesseur cpp éffectue une recherche des directives de précompilation (macros cpp) dans les fichiers sources et modéfie ce dernier en fonction de ces directives.
+.s : compilation proprement dite (sans assemblage).
+.o : fichier objet (compilation +assemblage
+
+
+
+
+Question 6 :
+Déterminer à quel niveau du process de compilation la fonction maxmin sera t’elle remplacer par le binaire correspondant.
+
+Réponse : la fonction max sera remplacer par le binaire lors de la phase d'edition de lien  
+ 
+ 
+ 
+ 
+
+Question 7 :
+Coder  la  fonction  min  et  variance  détaillé  dans  les  questions  suivantes  7  et  8.  Utiliser  le débuggeur pour corriger vos erreurs 
+ 
+Question 8 :
+
+Écrire une fonction minim en C permettant de calculer la valeur min d’un tableau contenant N entier. Créez à cet effet un fichier min.c et un fichier min.h dans votre répertoire examen. Créer également dans examen  un fichier testmin.c permettant de créer et d’initialiser un tableau de 5 éléments avec les valeurs suivantes: 2 5 7 2 9.   Vérifier la  fonction en affichant le  résultat.  Le prototype de la fonction est comme suit void minim (int t[], int n, int * min).  
+
+Réponse : 
+
+ 
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ ls
+max.c  max.i  max.s    minim.h   testmax.c  testminim.c
+max.h  max.o  minim.c  prog.exe  testmax.o
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ gcc -Wall -c minim.c
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ gcc -Wall -c testminim.ctestminim.c:4:6: warning: return type of ‘main’ is not ‘int’ [-Wmain]
+    4 | void main(){
+      |      ^~~~
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ ls
+max.c  max.i  max.s    minim.h  prog.exe   testmax.o    testminim.o
+max.h  max.o  minim.c  minim.o  testmax.c  testminim.c
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ gcc testminim.o minim.o -o minim.exe
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ ls
+max.c  max.i  max.s    minim.exe  minim.o   testmax.c  testminim.c
+max.h  max.o  minim.c  minim.h    prog.exe  testmax.o  testminim.o
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ ./minim.exe 
+la valeur minimale = 2kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ 
+ 
+ 
+ 
+ 
+Question 9 :
+Écrire  une  fonction  variance  en  C  permettant  de  calculer  la  variance  d’un  tableau  T  de dimension  N.  Créez  à  cet  effet  un  fichier  var.c  et  un  fichier  var.h.  Créer  un  fichier  testvar.c permettant de créer et initialiser un tableau de 5 éléments avec les valeurs suivantes: 2 5 7 2 9. Vérifier votre fonction en affichant le résultat. Le prototype de la fonction est comme suit: void 
+variance (int t[], int n, float * var).  
+ 
+                                               
+M : Moyenne des valeurs du tableau.
+
+Réponse : 
+Commande : 
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ ls
+max.c  max.o    minim.exe  prog.exe   testminim.c  testvar.o  var.h
+max.h  max.s    minim.h    testmax.c  testminim.o  var.c      var.o
+max.i  minim.c  minim.o    testmax.o  testvar.c    var.exe
+Résultat :
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ ./var.exe
+la variance est 7.60
+
+
+ 
+ 
+Question 10 :  
+Créer un fichier test permettant de créer et initialiser un tableau de 10 éléments avec les valeurs 
+suivantes: 4 9 10 11 12 15 12 9 0 30. Calculer et afficher le max, min et la variance.
+
+
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ gcc max.o minim.o var.o testAll.o -o final.exe
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ ls
+final.exe  max.h  max.o  minim.c    minim.h  prog.exe   testAll.o  testmax.o    testminim.o  testvar.o  var.exe  var.o
+max.c      max.i  max.s  minim.exe  minim.o  testAll.c  testmax.c  testminim.c  testvar.c    var.c      var.h
+
+kouceila@ubuntu:~/mu5sp05-part1/lab7/examen$ ./final.exe
+la valeur maximale = 30la valeur minimale = 0la variance est 55.76

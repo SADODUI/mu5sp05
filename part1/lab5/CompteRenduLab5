@@ -1,0 +1,118 @@
+Question 1 :
+
+Créer  un  nouveau  fichier  script  que  vous  appelerai  master.sh.  Dans  le  script, indiquez le type de shell que vous aller utiliser (bash dans notre cas se trouvant  dans le répertoire /bin) et lister les fichiers se trouvant dans le répertoire utilisé  dans le lab4 et le chemin d’accès au répertoire. Rajouter un commentaire pour  expliquer l’utilité  de chaque  commande.  Créer  une  variable  que  vous  appeler  master syscom. Stocker dans cette variable Hello Embedded Linux. Rajouter le droit  d’exécution  à  ce  fichier. 
+ 
+Solution : 
+#!/bin/sh (dire que c'est shell de type bash)
+# commentaire
+cd/home/kouceila/mu5sp05-part1/lab4 (chemin d'accées aux contenues du lab4)
+ls -a (cette commande permet de lister tous les fichier qui se trouve dans la lab4)
+pwd (Cette commande permet de donner l'accée)
+mastersyscom = "Hello Embeeded Linux" (Création d'une variable de type chaine de caractères)
+echo "$mastersyscom" (Cette commande permet d'afficher le contenu de la variable mastersyscom)
+
+
+Exécuter  le  script  et  vérifier  le  bon fonctionnement : 
+chmod u+rx master.sh
+
+
+
+Question 2 : 
+
+Ecrire  un  deuxième  script  shell  qui  lit  2  nombres  entrées  en  arguments  par l’utilisateur  et  qui  affiche  une  phrase,  bien  évidemment  correcte,  du  type  Le nombre  3  est  inférieur  au  nombre  5  (dans  le  cas  où  les  deux  nombres  entrés sont 3 et 5). Attention, penser à gérer le cas de l’égalité d’indice.
+
+Solution :
+#!/bin/sh
+if [ $1 -gt $2 ]
+then
+echo "$1 est supérieur à $2"
+elif [ $1 -lt $2 ]
+then
+echo "$1 est inferieur à $2"
+else
+echo "$1 est égale à $2"
+fi
+
+
+
+Question 3 :
+
+Ecrire  un  script  shell  qui  liste  tous  les  dossiers  du  répertoire  du  lab4.  indice  : 
+Une solution : parcourir tous les fichiers et répertoires avec une boucle for et à 
+chaque tour de boucle vérifier si on a bien un répertoire avec  if  -d.
+
+Solution :
+
+#!/bin/sh
+path=/home/ziri/Bureau/mu5sp05-part1/lab4
+cd $path
+echo "Les répertoires du lab4 sont : "
+for i in ./*; do
+if [ -d $i ]
+
+then
+echo "$i"
+fi
+done
+
+
+
+Question 4 :
+
+Modifier  le  script  précédent  afin  de  préciser  en  paramètre  le  chemin  du répertoire  que  l’on  souhaite  lister.  On  peut utiliser  la  commande  cd  pour  se placer dans le bon répertoire.  
+
+
+Solution :
+#!/bin/sh
+cd $1
+echo "Les dossiers de ce repertoire $i sont : "
+for i in ./*; do
+if [ -d $i ]
+
+
+
+Question 5 :
+Modifier à nouveau le script précédent afin de renvoyer un message d’erreur si  le chemin passé en paramètre n’est pas un répertoire valide.
+
+Solution :
+#!/bin/sh
+s=$1
+if [ -d $s ]
+then
+echo "Les dossiers de ce répertoire $1 sont : "
+for i in $s/*; do
+if [ -d $i]
+then
+echo "$i"
+fi
+done
+else
+echo "Erreur ce repertoire exixte pas"
+fi
+
+Question 6 :
+
+On se propose  d’écrire  un  script  pour  télécharger  des  webcomics,  en l’occurrence xkcd (http://xkcd.com). Une petite analyse du site permet de voir que la ième image se trouve sur la page web http://xkcd.com/i. Par exemple, la page web de la 3ème image est http://xkcd.com/3. On cherche à récupérer sur la page web, l’URL de l’image qui nous intéresse. Une analyse du code html nous  permet  de  voir  que  le  code  de  chaque  page  est  très  semblable.  En particulier,  l’URL  se  trouve  sur  une  ligne  contenant  le  mot “hotlinking”.  Par exemple, pour la première image :  
+ Image URL (for hotlinking/embedding): http://imgs.xkcd.com/comics/barrel cropped (1). jpg 
+ 
+On se propose de télécharger la page web et de l’afficher sur la sortie standard 
+et  extraire  la  ligne  qui  nous  intéresse  à  l’aide  de  la  commande  grep.  En 
+réalisant une itération, vérifier que vous arrivez à télécharger avec le script les 
+10 premières images. Utiliser la commande eog (eyes of gnome) pour afficher 
+les images les unes après les autres.  
+ 
+Hint :  eog nom-image.jpg 
+
+Solution : 
+
+for i in 'seq 1 9' ; do # 10 eterations
+wget http://xkcd.com/$i -O $i.html #pour télecharger le lien qui possèdes les images
+
+s='grep hotlinking $i.html |grep -o "https.*jpg" |grep -o "https.*jpg" '
+
+wget $s -O $i.jpg #permet de download images
+eog $i.jpg # permet de show les images
+
+done
+
+

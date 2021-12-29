@@ -1,0 +1,231 @@
+QUESTION 1 :
+
+Recopiez les fichiers max.c, min.c, var.c, max.h, min,h, var.h et test développés lors du lab7
+
+Réponse : 
+OK
+
+QUESTION 2 :
+
+Créer un makefile permettant de compiler les fichiers sources et de créer un binaire de sortie. Dans ce makefile, créer les cibles suivantes en activant à chaque fois l’option –Wall :
+Install : permettant d’installer le binaire créer dans $HOME (normalement c’est home/student dans votre cas)
+
+My-binaire : crée l’exécutable final de ce projet
+max.o
+min.o
+var.o
+test.o
+clean : permettant d’effacer les fichiers dont on n’aurait pas besoin pour créer le binaire.
+
+Réponse : 
+
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ ls
+CompteRenduLab10  max.c  minim.c  testAll.c  var.h
+Makfile           max.h  minim.h  var.c
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ make
+cp My-binaire /home/kouceila
+
+QUESTION 3 :
+
+Exécuter les commandes suivantes :
+ make
+ make install
+ make min.o
+ make clean
+Analyser ce qui ce passe pour chacune des étapes. Lorsqu'on ne précise pas de cible, qu’est
+ce qui se passe ?
+
+
+Réponse : 
+
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ make minim.o
+make: 'minim.o' is up to date.
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ make clean
+make: *** No rule to make target 'clean'.  Stop.
+
+
+QUESTION 4 :
+
+Modifier le makefile en rajoutant les macro suivants.
+CC = gcc
+OBJ = max.o min.o var.o
+CC_OPTIONS = // (Laisser vide pour le moment)
+
+Réponse : 
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ ./My-binaire
+la valeur maximale = 30la valeur minimale = 0la variance est 55.76
+
+QUESTION 5 :
+
+Redéfinissez la macro CC_OPTIONS à –g-Wall sur la ligne de commande qui permet d’appeler le makefile. Vérifier que cette modification à été prise en compte.
+
+Réponse : 
+
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ ./My-binaire
+la valeur maximale = 30la valeur minimale = 0la variance est 55.76
+
+
+Analyse :
+
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ make clean
+rm testAll.o max.o minim.o var.o
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ make
+gcc -g -Wall -c max.c -o max.o
+gcc -g -Wall -c minim.c -o minim.o
+gcc -g -Wall -c var.c -o var.o
+gcc -g -Wall -c testAll.c -o testAll.o
+testAll.c:6:6: warning: return type of ‘main’ is not ‘int’ [-Wmain]
+    6 | void main(){
+      |      ^~~~
+testAll.c: In function ‘main’:
+testAll.c:25:8: warning: ‘return’ with a value, in function returning void [-Wreturn-type]
+   25 | return 0;
+      |        ^
+testAll.c:6:6: note: declared here
+    6 | void main(){
+      |      ^~~~
+gcc -g -Wall max.o minim.o var.o testAll.o -o My-binaire -lm
+cp My-binaire /home/kouceila
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ ls
+CompteRenduLab10  max.h    minim.h     testAll.c  var.h
+makefile          max.o    minim.o     testAll.o  var.o
+max.c             minim.c  My-binaire  var.c
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ rm My-binaire 
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ ls
+CompteRenduLab10  max.c  max.o    minim.h  testAll.c  var.c  var.o
+makefile          max.h  minim.c  minim.o  testAll.o  var.h
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ make clean
+rm testAll.o max.o minim.o var.o
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ ls
+CompteRenduLab10  max.c  minim.c  testAll.c  var.h
+makefile          max.h  minim.h  var.c
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ make
+gcc -g -Wall -c max.c -o max.o
+gcc -g -Wall -c minim.c -o minim.o
+gcc -g -Wall -c var.c -o var.o
+gcc -g -Wall -c testAll.c -o testAll.o
+testAll.c:6:6: warning: return type of ‘main’ is not ‘int’ [-Wmain]
+    6 | void main(){
+      |      ^~~~
+testAll.c: In function ‘main’:
+testAll.c:25:8: warning: ‘return’ with a value, in function returning void [-Wreturn-type]
+   25 | return 0;
+      |        ^
+testAll.c:6:6: note: declared here
+    6 | void main(){
+      |      ^~~~
+gcc -g -Wall max.o minim.o var.o testAll.o -o My-binaire -lm
+cp My-binaire /home/kouceila
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ ls
+CompteRenduLab10  max.h    minim.h     testAll.c  var.h
+makefile          max.o    minim.o     testAll.o  var.o
+max.c             minim.c  My-binaire  var.c
+ 
+ 
+ 
+ 
+ 
+QUESTION 6 :
+
+Proposer un nouveau makefile en remplaçant le nom de la cible et la liste des dépendances par les variables automatiques. La liste des variables automatiques que vous avez à rajouter dans votre makefile est donnée comme suit :
+ $@ : nom de la cible
+ $< : première dépendance de la liste des dépendances
+ $^ : toutes les dépendances
+
+Réponse : 
+
+
+QUESTION 7 :
+
+Nous souhaitons pouvoir créer un binaire en mode debug ou en mode distribution release suivant le souhait de l’utilisateur. Définissez une variable DEBUG dans votre makefile et rajouter les modifications suivantes :
+ Si DEBUG = yes, la compilation sera en mode debug.
+ Sinon la compilation sera en mode relea
+
+Réponse : 
+insert des symbole et binaire et plus long (relese rapide)
+
+BJ = max.o minim.o var.o
+EXEC = Programme
+DEBUG = yes 
+ifeq ($(DEBUG),yes)
+CFLAGS = -g -W -Wall
+else
+CFLAGS =
+endif
+
+install : My-binaire
+	cp My-binaire $(HOME)
+
+My-binaire : $(OBJ) testAll.o
+	$(CC) $(CFLAGS) $(OBJ) testAll.o -o My-binaire -lm
+
+max.o : max.c
+	$(CC) $(CFLAGS) -c max.c -o max.o
+
+minim.o : minim.c
+	$(CC) $(CFLAGS) -c minim.c -o minim.o
+
+var.o : var.c
+	$(CC) $(CFLAGS) -c var.c -o var.o
+
+testAll.o : testAll.c
+	$(CC) $(CFLAGS) -c testAll.c -o testAll.o
+clean : 
+	rm testAll.o $(OBJ)
+	
+	
+QUESTION 8 :
+
+Tester vos modifications et vérifier le bon fonctionnement de votre makefile
+
+Réponse : 
+
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ make clean
+rm testAll.o max.o minim.o var.o
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ ls
+CompteRenduLab10  max.c  minim.c  My-binaire  var.c
+makefile          max.h  minim.h  testAll.c   var.h
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ rm My-binaire
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ ls
+CompteRenduLab10  max.c  minim.c  testAll.c  var.h
+makefile          max.h  minim.h  var.c
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ make
+gcc  -c max.c -o max.o
+gcc  -c minim.c -o minim.o
+gcc  -c var.c -o var.o
+gcc  -c testAll.c -o testAll.o
+testAll.c: In function ‘main’:
+testAll.c:25:8: warning: ‘return’ with a value, in function returning void
+   25 | return 0;
+      |        ^
+testAll.c:6:6: note: declared here
+    6 | void main(){
+      |      ^~~~
+gcc  max.o minim.o var.o testAll.o -o My-binaire -lm
+cp My-binaire /home/kouceila
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ ls
+CompteRenduLab10  max.h    minim.h     testAll.c  var.h
+makefile          max.o    minim.o     testAll.o  var.o
+max.c             minim.c  My-binaire  var.c
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ ./My-binaire
+la valeur maximale = 30la valeur minimale = 0la variance est 55.76kouceila@ubuntu:~/mu5sp05-part1/lab10$ 
+
+
+QUESTION 9 :
+
+Afficher le mode de compilation utilisé en rajoutant la commande echo dans votre makefile
+
+Réponse : 
+
+kouceila@ubuntu:~/mu5sp05-part1/lab10$ make DEBUG=yes
+cp My-binaire /home/kouceila
+Génération en mode Debug
+
+
+
+
+
+
+
+
+
